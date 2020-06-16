@@ -55,11 +55,11 @@ z = input('Single player or Multi-player?[s/m]')
 if z  == 'm':
     while True:
         print_gp()
-        st = input('Select')
+        st = input('[ ? ] Select\n')
         se_loca = locat(st)
         selected = find(se_loca)
         print(selected.type)
-        dt = input('Destination')
+        dt = input('[ ? ] Destination\n')
         dt_loca = locat(dt)
         destination = find(dt_loca)
         move(se_loca,dt_loca,selected,destination)

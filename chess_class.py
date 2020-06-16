@@ -146,13 +146,48 @@ def find(self):   #returns object by giving an array of ['letter','number'] also
     temp = (globals()[self[0]])[self[1]]
     return temp
 
+def get_glo(po1,po2):
+    return (globals()[po1])[po2]
+
+def dp_str(obj,sta,end):
+    print('[ OK ]',obj.side,obj.type,str(sta[0])+str(sta[1] + 1),' moved to',str(end[0])+str(end[1] + 1))
+
+def tk(obj,end):
+    print('[ OK ]',str(obj.side) + ' ' + str(obj.type) + ' @ ' + str(end[0]) + str(end[1] + 1 ) + ' will be taken.')
+
 def move(sta,end,sel,des):
     if des.side == sel.side:
         print('Cant move onto your own piece.')
     elif sel.type == 'pawn':
-        if des.type == 'blank':
+        if des.type == 'blank' and sel.side == 'white':
             if (sta[1] == 1) and (end[0] == sta[0]) and (end[1] - 1 == sta[1] or end[1] - 2 == sta[1]):
-                (globals()[end[0]])[end[1]] = (globals()[sta[0]])[sta[1]]
+                (globals()[end[0]])[end[1]] = get_glo(sta[0],sta[1])
                 (globals()[sta[0]])[sta[1]] = chess('na',0,'blank','o')
+                dp_str(sel,sta,end)
 
+            if end[1] - 1 == sta[1] and (end[0] == sta[0]):
+                (globals()[end[0]])[end[1]] = get_glo(sta[0],sta[1])
+                (globals()[sta[0]])[sta[1]] = chess('na', 0, 'blank', 'o')
+                dp_str(sel,sta,end)
+        elif ((gp[gp.index(globals()[sta[0]]) + 1][sta[1] + 1]) == des) or (gp[gp.index(globals()[sta[0]]) -1][sta[1] + 1] == des) and des.side == 'black':
+            (globals()[end[0]])[end[1]] = get_glo(sta[0], sta[1])
+            (globals()[sta[0]])[sta[1]] = chess('na', 0, 'blank', 'o')
+            tk(des,end)
+            dp_str(sel,sta,end)
+        elif des.type == 'blank' and sel.side == 'black':
+            if (sta[1] == 6) and (end[0] == sta[0]) and (end[1] + 1 == sta[1] or end[1] + 2 == sta[1]):
+                (globals()[end[0]])[end[1]] = get_glo(sta[0],sta[1])
+                (globals()[sta[0]])[sta[1]] = chess('na',0,'blank','o')
+                dp_str(sel,sta,end)
+            if end[1] + 1 == sta[1] and (end[0] == sta[0]):
+                (globals()[end[0]])[end[1]] = get_glo(sta[0],sta[1])
+                (globals()[sta[0]])[sta[1]] = chess('na', 0, 'blank', 'o')
+                dp_str(sel,sta,end)
+        elif ((gp[gp.index(globals()[sta[0]]) + 1][sta[1] - 1]) == des) or (gp[gp.index(globals()[sta[0]]) -1][sta[1] - 1] == des) and des.side == 'white':
+            tk(des,end)
+            dp_str(sel,sta,end)
+            (globals()[end[0]])[end[1]] = get_glo(sta[0], sta[1])
+            (globals()[sta[0]])[sta[1]] = chess('na', 0, 'blank', 'o')
+        else:
+            print('Unknown error')
 
