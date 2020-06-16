@@ -132,8 +132,27 @@ for i in range(8):
 def print_gp():
     i = 7
     while i>=0:
-        print(a[i].dp,b[i].dp,c[i].dp,d[i].dp,e[i].dp,f[i].dp,g[i].dp,h[i].dp,'\n')
+        print(str(i+1),'|',a[i].dp,b[i].dp,c[i].dp,d[i].dp,e[i].dp,f[i].dp,g[i].dp,h[i].dp)
         i-=1
+    print('*   a-b-c-d-e-f-g-h-')
+    print('-----------------------------------------')
 
+def locat(self): #input (a1) return an array of ['letter','number'] @ actual gp array
+    let = self[0]
+    num = int(self[1]) - 1
+    return [let,num]
+
+def find(self):   #returns object by giving an array of ['letter','number'] also known as locat()
+    temp = (globals()[self[0]])[self[1]]
+    return temp
+
+def move(sta,end,sel,des):
+    if des.side == sel.side:
+        print('Cant move onto your own piece.')
+    elif sel.type == 'pawn':
+        if des.type == 'blank':
+            if (sta[1] == 1) and (end[0] == sta[0]) and (end[1] - 1 == sta[1] or end[1] - 2 == sta[1]):
+                (globals()[end[0]])[end[1]] = (globals()[sta[0]])[sta[1]]
+                (globals()[sta[0]])[sta[1]] = chess('na',0,'blank','o')
 
 
