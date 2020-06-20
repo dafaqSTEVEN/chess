@@ -98,8 +98,10 @@ class chess():
 
 class test():
     def __init__(self,sta,end,obj,des_obj):
+        self.move = False
+        self.take = False
         i = 1
-        if obj.type == 'pawn':
+        if obj.type == 'pawn' and obj.side == 'white':
             list_move = []
             list_take = []
             while i<3:
@@ -108,22 +110,18 @@ class test():
                     i += 1
                 else:
                     break
-                if glo_x(sta[0],'+',1,sta[1] + 1).side != get_glo(sta[0],sta[1]).side:
+                if glo_x(sta[0],'+',1,sta[1] + 1).side != (get_glo(sta[0],sta[1]).side and 'blank'):
                     list_take.append(glo_x(sta[0],'+',1,sta[1] + 1))
             try:
-                if glo_x(sta[0],'-',1,sta[1] + 1).side != get_glo(sta[0],sta[1]).side:
+                if glo_x(sta[0],'-',1,sta[1] + 1).side != (get_glo(sta[0],sta[1]).side and 'blank'):
                     list_take.append(glo_x(sta[0],'-',1,sta[1] + 1))
             except:
                 pass
             finally:
                 if des_obj in list_move:
                     self.move = True
-                else:
-                    self.move = False
                 if des_obj in list_take:
                     self.take = True
-                else:
-                    self.take = False
 
 
 a = []
@@ -201,11 +199,14 @@ def tk(obj,end):
 def move(sta,end,obj,des_obj):
     if des_obj.side == obj.side:
         print('Cant move onto your own piece.')
+    else:
         temp = test(sta,end,obj,des_obj)
         if temp.move ==  True:
             (globals()[end[0]])[end[1]] = get_glo(sta[0], sta[1])
             (globals()[sta[0]])[sta[1]] = chess('na',0,'blank','o')
             dp_str(obj, sta, end)
+        elif temp.move == False:
+            print('[ ! ]Cant move to required destination.')
         if temp.take == True:
             (globals()[end[0]])[end[1]] = get_glo(sta[0], sta[1])
             (globals()[sta[0]])[sta[1]] = chess('na', 0, 'blank', 'o')
