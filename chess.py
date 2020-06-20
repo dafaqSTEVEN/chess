@@ -56,13 +56,11 @@ if z  == 'm':
     while True:
         print_gp()
         st = input('[ ? ] Select\n')
-        se_loca = locat(st)
-        selected = find(se_loca)
+        selected = find(locat(st))
         print(selected.type)
         dt = input('[ ? ] Destination\n')
-        dt_loca = locat(dt)
-        destination = find(dt_loca)
-        move(se_loca,dt_loca,selected,destination)
+        destination = find(locat(dt))
+        move(locat(st),locat(dt),selected,destination)
 
 
 
