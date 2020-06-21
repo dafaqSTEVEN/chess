@@ -78,7 +78,72 @@ class test():
                 self.move = True
             if des_obj in list_take:
                 self.take = True
-
+        if obj.type == 'rook':
+            i = 1
+            while glo_x(sta[0], '+', i, sta[1]).type == 'blank':  # [x+][y] right
+                list_move.append(glo_x(sta[0], '+', i, sta[1]))
+                i += 1
+            if glo_x(sta[0], '+', i, sta[1]).side != get_glo(sta[0], sta[1]).side:
+                list_take.append(glo_x(sta[0], '+', i, sta[1]))
+            i = 1
+            while glo_x(sta[0], '-', i, sta[1]).type == 'blank':  # [x-][y] left
+                list_move.append(glo_x(sta[0], '-', i, sta[1]))
+                i += 1
+            if glo_x(sta[0], '-', i, sta[1]).side != get_glo(sta[0], sta[1]).side:
+                list_take.append(glo_x(sta[0], '-', i, sta[1]))
+            i = 1
+            while get_glo(sta[0],sta[1] + i).type == 'blank':  # [x][y+] up
+                list_move.append(get_glo(sta[0],sta[1] + i))
+                i += 1
+            if get_glo(sta[0],sta[1] + i).side != get_glo(sta[0], sta[1]).side:
+                list_take.append(get_glo(sta[0],sta[1] + i))
+            i = 1
+            while get_glo(sta[0], sta[1] - i).type == 'blank':  # [x][y-] down
+                list_move.append(get_glo(sta[0], sta[1] - i))
+                i += 1
+            if get_glo(sta[0], sta[1] - i).side != get_glo(sta[0], sta[1]).side:
+                list_take.append(get_glo(sta[0], sta[1] - i))
+            if des_obj in list_move:
+                self.move = True
+            if des_obj in list_take:
+                self.take = True
+        if obj.type == 'knight':
+            if glo_x(sta[0],'+',1,sta[1] + 2).type == 'blank':   #pos1 x+1 y+2
+                list_move.append(glo_x(sta[0],'+',1,sta[1] + 2))
+            elif glo_x(sta[0],'+',1,sta[1] + 2).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'+',1,sta[1] + 2))
+            if glo_x(sta[0],'+',2,sta[1] + 1).type == 'blank':   #pos2 x+2 y+1
+                list_move.append(glo_x(sta[0],'+',2,sta[1] + 1))
+            elif glo_x(sta[0],'+',2,sta[1] + 1).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'+',2,sta[1] + 1))
+            if glo_x(sta[0],'+',2,sta[1] - 1).type == 'blank':   #pos3 x+2 y-1
+                list_move.append(glo_x(sta[0],'+',2,sta[1] - 1))
+            elif glo_x(sta[0],'+',2,sta[1] - 1).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'+',2,sta[1] - 1))
+            if glo_x(sta[0],'+',1,sta[1] - 2).type == 'blank':   #pos4 x+1 y-2
+                list_move.append(glo_x(sta[0],'+',1,sta[1] - 2))
+            elif glo_x(sta[0],'+',1,sta[1] - 2).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'+',1,sta[1] - 2))
+            if glo_x(sta[0], '-', 1, sta[1] - 2).type == 'blank':  # pos5 x-1 y-2
+                list_move.append(glo_x(sta[0], '-', 1, sta[1] - 2))
+            elif glo_x(sta[0], '-', 1, sta[1] - 2).side != get_glo(sta[0], sta[1]).side:
+                list_take.append(glo_x(sta[0], '-', 1, sta[1] - 2))
+            if glo_x(sta[0],'-', 2,sta[1] - 1).type == 'blank':   #pos6 x-2 y-1
+                list_move.append(glo_x(sta[0],'-',2,sta[1] - 1))
+            elif glo_x(sta[0],'-',2,sta[1] - 1).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'-',2,sta[1] - 1))
+            if glo_x(sta[0],'-',2,sta[1] + 1).type == 'blank':   #pos7 x-2 y+1
+                list_move.append(glo_x(sta[0],'-',2,sta[1] + 1))
+            elif glo_x(sta[0],'-',2,sta[1] + 1).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'-',2,sta[1] + 1))
+            if glo_x(sta[0],'-',1,sta[1] + 2).type == 'blank':   #pos8 x-1 y+2
+                list_move.append(glo_x(sta[0],'-',1,sta[1] + 2))
+            elif glo_x(sta[0],'-',1,sta[1] + 2).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'-',1,sta[1] + 2))
+            if des_obj in list_move:
+                self.move = True
+            if des_obj in list_take:
+                self.take = True
 
 
 
@@ -174,6 +239,7 @@ def move(sta,end,obj,des_obj):
             (globals()[end[0]])[end[1]] = get_glo(sta[0], sta[1])
             (globals()[sta[0]])[sta[1]] = chess('na', 0, 'blank', 'o')
             tk(des_obj,end)
+
 
 
 

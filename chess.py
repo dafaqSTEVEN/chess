@@ -6,6 +6,7 @@ import os
 z = input('Single player or Multi-player?[s/m]')
 if z  == 'm':
     while True:
+        os.system('cls')
         print_gp()
         st = input('[ ? ] Select\n')
         selected = find(locat(st))
@@ -17,6 +18,6 @@ if z  == 'm':
             destination = find(locat(dt))
             move(locat(st),locat(dt),selected,destination)
         input('[ Await ]type anything to clear screen.')
-        os.system('cls')
+
 
 
