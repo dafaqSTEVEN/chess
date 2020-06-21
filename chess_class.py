@@ -100,18 +100,16 @@ class test():
     def __init__(self,sta,end,obj,des_obj):
         self.move = False
         self.take = False
-        i = 1
+        list_move = []
+        list_take = []
         if obj.type == 'pawn' and obj.side == 'white':
-            list_move = []
-            list_take = []
-            while i<3:
-                if get_glo(sta[0],sta[1] + i).type == 'blank':
-                    list_move.append(get_glo(sta[0],sta[1] + i))
-                    i += 1
-                else:
-                    break
-                if glo_x(sta[0],'+',1,sta[1] + 1).side != (get_glo(sta[0],sta[1]).side and 'blank'):
-                    list_take.append(glo_x(sta[0],'+',1,sta[1] + 1))
+            if get_glo(sta[0],sta[1] + 1).type == 'blank':
+                list_move.append(get_glo(sta[0],sta[1] + 1))
+            if sta[1] == 1 and get_glo(sta[0],sta[1] + 2).type == 'blank':
+                list_move.append(get_glo(sta[0], sta[1] + 2))
+
+            if glo_x(sta[0],'+',1,sta[1] + 1).side != (get_glo(sta[0],sta[1]).side and 'blank'):
+                list_take.append(glo_x(sta[0],'+',1,sta[1] + 1))
             try:
                 if glo_x(sta[0],'-',1,sta[1] + 1).side != (get_glo(sta[0],sta[1]).side and 'blank'):
                     list_take.append(glo_x(sta[0],'-',1,sta[1] + 1))
@@ -122,6 +120,57 @@ class test():
                     self.move = True
                 if des_obj in list_take:
                     self.take = True
+        if obj.type == 'pawn' and obj.side == 'black':
+            if get_glo(sta[0], sta[1] - 1).type == 'blank':
+                list_move.append(get_glo(sta[0], sta[1] - 1))
+            if sta[1] == 6 and get_glo(sta[0], sta[1] - 2).type == 'blank':
+                list_move.append(get_glo(sta[0], sta[1] - 2))
+
+            if glo_x(sta[0], '+', 1, sta[1] - 1).side != (get_glo(sta[0], sta[1]).side and 'blank'):
+                list_take.append(glo_x(sta[0], '+', 1, sta[1] - 1))
+            try:
+                if glo_x(sta[0], '-', 1, sta[1] - 1).side != (get_glo(sta[0], sta[1]).side and 'blank'):
+                    list_take.append(glo_x(sta[0], '-', 1, sta[1] - 1))
+            except:
+                pass
+            finally:
+                if des_obj in list_move:
+                    self.move = True
+                if des_obj in list_take:
+                    self.take = True
+        if obj.type == 'bishop':
+            i = 1
+            while glo_x(sta[0],'-',i,sta[1] + i).type == 'blank':   # left up to go [x -][y +]
+                list_move.append(glo_x(sta[0],'-',i,sta[1] + i))
+                i +=1
+            if glo_x(sta[0],'-',i,sta[1] + i).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'-',i,sta[1] + i))
+            i = 1
+            while glo_x(sta[0],'+',i,sta[1] + i).type == 'blank':   # right up to go [x +][y +]
+                list_move.append(glo_x(sta[0],'+',i,sta[1] + i))
+                i += 1
+            if glo_x(sta[0],'+',i,sta[1] + i).side != get_glo(sta[0],sta[1]).side:
+                list_take.append(glo_x(sta[0],'+',i,sta[1] + i))
+            i = 1
+            while glo_x(sta[0], '-', i, sta[1] - i).type == 'blank':  # left down to go [x -][y -]
+                list_move.append(glo_x(sta[0], '-', i, sta[1] - i))
+                i += 1
+            if glo_x(sta[0], '-', i, sta[1] - i).side != get_glo(sta[0], sta[1]).side:
+                list_take.append(glo_x(sta[0], '-', i, sta[1] - i))
+            i = 1
+            while glo_x(sta[0], '+', i, sta[1] - i).type == 'blank':  # left down to go [x +][y -]
+                list_move.append(glo_x(sta[0], '+', i, sta[1] - i))
+                i += 1
+            if glo_x(sta[0], '+', i, sta[1] - i).side != get_glo(sta[0], sta[1]).side:
+                list_take.append(glo_x(sta[0], '+', i, sta[1] - i))
+            if des_obj in list_move:
+                self.move = True
+            if des_obj in list_take:
+                self.take = True
+
+
+
+
 
 
 a = []
@@ -160,12 +209,15 @@ for i in range(8):
 
 def glo_x(self,arth,num,y):   #enter self as 'x', + / - as arth, num as amount of number to add or subtract, y as int(y) to return the calculated object
     if arth == '+':
-        return gp[gp.index(globals()[self]) + num][y]
+        try:
+            return gp[gp.index(globals()[self]) + num][y]
+        except :
+            return chess('none','none','ignore','none')
     elif arth == '-':
         try:
             return gp[gp.index(globals()[self]) - num][y]
-        except KeyError:
-            pass
+        except :
+            return chess('none','none','ignore','none')
 
 def print_gp():
     i = 7

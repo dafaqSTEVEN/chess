@@ -58,10 +58,13 @@ if z  == 'm':
         print_gp()
         st = input('[ ? ] Select\n')
         selected = find(locat(st))
-        print('[ OK ]',selected.type,'@',str(locat(st)[0])+str(locat(st)[1] + 1),'has been selected.')
-        dt = input('[ ? ] Destination\n')
-        destination = find(locat(dt))
-        move(locat(st),locat(dt),selected,destination)
+        if selected.type == 'blank':
+            print("[ ! ]Invalid select @ {}{}".format(locat(st)[0],locat(st)[1] + 1))
+        else:
+            print('[ OK ]',selected.type,'@',str(locat(st)[0])+str(locat(st)[1] + 1),'has been selected.')
+            dt = input('[ ? ] Destination\n')
+            destination = find(locat(dt))
+            move(locat(st),locat(dt),selected,destination)
         input('[ Await ]type anything to clear screen.')
         os.system('cls')
 
